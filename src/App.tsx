@@ -1,43 +1,35 @@
 import "./assets/css/fonts.css";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import * as ReactRouter from "react-router-dom";
 import Home from "./pages/HomeScreen";
 import { globalStyles } from "../stitches.config";
 import NotFound from "./pages/NotFound";
-import { usePhone } from "./contexts/PhoneContext";
 import LockScreen from "./pages/LockScreen";
+import ProtectedScreen from "./components/ProtectedScreen";
 
 export function App() {
    globalStyles();
-   const { locked } = usePhone();
-
-   if (locked) {
-      return (
-         <>
-            {locked.toString()}
-
-            <Routes>
-               <Route path="/" element={<LockScreen />} />
-               <Route path="*" element={<NotFound />} />
-            </Routes>
-         </>
-      );
-   }
 
    return (
-      <>
-         {locked.toString()}
-         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
-         </Routes>
-      </>
+      <ReactRouter.Routes>
+         <ReactRouter.Route
+            path="/"
+            element={
+               // TODO: FIX UNDEFINED ERROR
+               <ProtectedScreen>
+                  <Home />
+               </ProtectedScreen>
+            }
+         />
+         <ReactRouter.Route path="/lock-screen" element={<LockScreen />} />
+         <ReactRouter.Route path="*" element={<NotFound />} />
+      </ReactRouter.Routes>
    );
 }
 
 export function WrappedApp() {
    return (
-      <HashRouter>
+      <ReactRouter.HashRouter>
          <App />
-      </HashRouter>
+      </ReactRouter.HashRouter>
    );
 }
