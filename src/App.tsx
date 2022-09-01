@@ -14,7 +14,6 @@ export function App() {
          <ReactRouter.Route
             path="/"
             element={
-               // TODO: FIX UNDEFINED ERROR
                <ProtectedScreen>
                   <Home />
                </ProtectedScreen>

@@ -6,13 +6,15 @@ export interface ProtectedScreenProps {
    children: React.ReactNode;
 }
 
-function ProtectedScreen({ children }: ProtectedScreenProps): React.ReactNode {
+function ProtectedScreen({ children }: ProtectedScreenProps) {
    const { locked } = usePhone();
 
    if (locked) {
       return <Navigate to="/lock-screen" replace />;
    }
 
-   return children;
+   // eslint-disable-next-line react/jsx-no-useless-fragment
+   return <>{children}</>;
 }
+
 export default ProtectedScreen;
